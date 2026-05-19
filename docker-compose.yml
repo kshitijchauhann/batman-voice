@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./batman-voice-backend
+      dockerfile: Dockerfile
+    container_name: batman_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # If your Ollama server is running on the host machine, you need this to reach it
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Uncomment the deploy section if you want to use NVIDIA GPUs inside the container
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
